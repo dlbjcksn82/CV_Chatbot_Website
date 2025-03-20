@@ -20,7 +20,7 @@ def extract_text_from_pdf(pdf_path):
     return text.strip()
 
 
-def split_text_into_chuncks(cv_text, chunk_size=1024, chunk_overlap=64):
+def split_text_into_chuncks(cv_text, chunk_size=768, chunk_overlap=64):
     text_splitter = RecursiveCharacterTextSplitter(
         chunk_size=chunk_size,
         chunk_overlap=chunk_overlap
