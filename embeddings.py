@@ -72,7 +72,7 @@ def retrieve_releveant_cv_sections(query, top_k=3):
 
 
 def load_cv():
-    cv_path = "/Users/dj/Documents/CLI_CV_Chatbot/CV_Del_Jackson.pdf"
+    cv_path = "CV_Del_Jackson.pdf"
 
     cv_sections, cv_embeddings = generate_cv_embeddings(cv_path)
     # convert embeddings to numpy array required by FAISS

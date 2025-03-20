@@ -5,6 +5,29 @@ document.getElementById("user-input").addEventListener("keypress", function(even
         sendMessage();  // Calls the sendMessage function
     }
 });
+
+// Function to convert Markdown-like text (*bold*, _italic_) into proper HTML
+function formatMessage(message) {
+    return message
+        .replace(/\*\*(.*?)\*\*/g, '<b>$1</b>')  // **bold** → <b>bold</b>
+        .replace(/\*(.*?)\*/g, '<i>$1</i>');    // *italic* → <i>italic</i>
+}
+
+// Modify this part in script.js where messages are added to the chat
+function addMessageToChat(sender, message) {
+    const chatContainer = document.getElementById("chat-container");
+
+    // Format the message before adding it
+    const formattedMessage = formatMessage(message);
+
+    const messageElement = document.createElement("div");
+    messageElement.classList.add("message", sender);
+    messageElement.innerHTML = `<p>${formattedMessage}</p>`;  // Use formatted text
+
+    chatContainer.appendChild(messageElement);
+    chatContainer.scrollTop = chatContainer.scrollHeight;
+}
+
 //dynamically get the server IP
 const serverIP = window.location.hostname;
 
@@ -46,7 +69,8 @@ async function sendMessage() {
         // Append bot's response as a chat bubble
         let botMessage = document.createElement("div");
         botMessage.classList.add("message", "bot-message");
-        botMessage.textContent = chatbotResponse;
+        //botMessage.textContent = chatbotResponse;
+        botMessage.innerHTML = "<p>" + formatMessage(chatbotResponse) + "</p>";
         chatBox.appendChild(botMessage);
 
     } catch (error) {
