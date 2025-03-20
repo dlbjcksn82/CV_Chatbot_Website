@@ -5,6 +5,8 @@ document.getElementById("user-input").addEventListener("keypress", function(even
         sendMessage();  // Calls the sendMessage function
     }
 });
+//dynamically get the server IP
+const serverIP = window.location.hostname;
 
 async function sendMessage() {
     let userInput = document.getElementById("user-input").value.trim();
@@ -27,9 +29,9 @@ async function sendMessage() {
     chatBox.appendChild(typingIndicator);
 
     chatBox.scrollTop = chatBox.scrollHeight;  // Auto-scroll
-
+    //127.0.0.1
     try {
-        let response = await fetch("http://127.0.0.1:8080/chat", {
+        let response = await fetch(`http://${serverIP}:8080/chat`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ message: userInput })

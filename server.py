@@ -2,10 +2,13 @@ from flask import Flask, request, jsonify, render_template
 from chatbot import chat_with_gemma
 from flask_cors import CORS
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder="static", template_folder="templates")
 # enable CORS for /chat endpoint
 CORS(app, resources={r"/chat": {"origins": "*"}})
 
+@app.route('/')
+def home():
+    return render_template("index.html")
 
 @app.route('/chat', methods=['POST', 'OPTIONS'])
 def chat():
@@ -25,4 +28,4 @@ def chat():
     return jsonify({"response": response}), 200
 
 if __name__ == '__main__':
-    app.run(host='10.244.1.194', port=8080, debug=True)
+    app.run(host='0.0.0.0', port=8080, debug=True)
