@@ -7,6 +7,13 @@ app = Flask(__name__)
 # Load OpenAI API key
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
+# Check if the API key is set
+api_key = os.getenv("OPENAI_API_KEY")
+if api_key:
+    print("✅ OpenAI API Key Found!")  # Confirms that the key exists
+else:
+    print("❌ ERROR: OPENAI_API_KEY Not Found!")  # If not found, will print an error
+
 @app.route("/")
 def test_chat():
     try:
