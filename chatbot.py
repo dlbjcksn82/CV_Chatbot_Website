@@ -18,7 +18,7 @@ chat_history = []
 
 
 def chat_with_gpt(prompt):
-    print("Getting a response from OpenAI GPT-40 Mini...")
+    # print("Getting a response from OpenAI GPT-40 Mini...")
     # Retrieve relevant CV information
     relevant_cv_info = retrieve_releveant_cv_sections(prompt)
 
@@ -60,8 +60,8 @@ def chat_with_gpt(prompt):
         top_p=0.9,)
 
     # Print response
-    print("Response from OpenAI:")
-    print(response.choices[0].message.content)
+    # print("Response from OpenAI:")
+    # print(response.choices[0].message.content)
     chat_history.append(f"User: {prompt}")
     chat_history.append(f"AI: {response.choices[0].message.content}")
     return response.choices[0].message.content

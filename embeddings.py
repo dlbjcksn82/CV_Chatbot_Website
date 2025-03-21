@@ -6,12 +6,6 @@ import os
 from langchain_openai import OpenAIEmbeddings
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 
-'''
-# old model
-embedding_model = HuggingFaceEmbeddings(
-    model_name="sentence-transformers/all-MiniLM-L6-v2"
-)
-'''
 # Use OpenAI's embeddings model
 embedding_model = OpenAIEmbeddings(
     model="text-embedding-3-small",
