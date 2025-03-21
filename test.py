@@ -20,6 +20,8 @@ def test_chat():
         # Fixed test query
         test_prompt = "Can you explain why the sky is blue?"
 
+        '''
+        #Uncomment this block to test the openai interface
         # Send query to OpenAI
         response = client.chat.completions.create(
             model="gpt-4o-mini",
@@ -29,6 +31,8 @@ def test_chat():
         )
         print(response.choices[0].message.content)
         return jsonify({"response": response.choices[0].message.content})
+        '''
+        return jsonify({"response": "App running"})
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
