@@ -54,7 +54,7 @@ async function sendMessage() {
     chatBox.scrollTop = chatBox.scrollHeight;  // Auto-scroll
     //127.0.0.1
     try {
-        let response = await fetch(`http://${serverIP}:8080/chat`, {
+        let response = await fetch(`/chat`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ message: userInput })
