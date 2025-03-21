@@ -2,14 +2,21 @@ import numpy as np
 import pickle
 import faiss
 import pypdf
-from langchain_huggingface import HuggingFaceEmbeddings
+import os
+from langchain_openai import OpenAIEmbeddings
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 
-
+'''
+# old model
 embedding_model = HuggingFaceEmbeddings(
     model_name="sentence-transformers/all-MiniLM-L6-v2"
 )
-
+'''
+# Use OpenAI's embeddings model
+embedding_model = OpenAIEmbeddings(
+    model="text-embedding-3-small",
+    openai_api_key=os.getenv("OPENAI_API_KEY")
+)
 
 def extract_text_from_pdf(pdf_path):
     # Open the PDF File
@@ -40,12 +47,14 @@ def generate_cv_embeddings(cv_path):
 
 
 def save_faiss_index(cv_sections, cv_embeddings,
-                     index_path="data/cv_embeddings.index"):
+                     index_path="data/cv_embeddings.index",
+                     chunks_path="data/cv_chunks.pkl"):
+    os.makedirs("data", exist_ok=True)
     cv_embeddings_np = np.array(cv_embeddings, dtype=np.float32)
     index = faiss.IndexFlatL2(cv_embeddings_np.shape[1])
     index.add(cv_embeddings_np)
     faiss.write_index(index, index_path)
-    with open("data/cv_chunks.pkl", "wb") as f:
+    with open(chunks_path, "wb") as f:
         pickle.dump(cv_sections, f)
 
 
@@ -56,13 +65,13 @@ def retrieve_releveant_cv_sections(query, top_k=3):
     )
 
     # Load Faiss Index
-    index = faiss.read_index("cv_embeddings.index")
+    index = faiss.read_index("data/cv_embeddings.index")
 
     # search for the top_k most similar CV chunks
     distances, indices = index.search(query_embedding, top_k)
 
     # load CV chunks from file
-    with open("cv_chunks.pkl", "rb") as f:
+    with open("data/cv_chunks.pkl", "rb") as f:
         cv_chunks = pickle.load(f)
 
     # get the actual text of the chunks
@@ -77,13 +86,15 @@ def load_cv():
     cv_sections, cv_embeddings = generate_cv_embeddings(cv_path)
     # convert embeddings to numpy array required by FAISS
     cv_embeddings_np = np.array(cv_embeddings, dtype=np.float32)
+
+    os.makedirs("data", exist_ok=True)
     # Save cv_sections
-    with open("cv_chunks.pkl", "wb") as f:
+    with open("data/cv_chunks.pkl", "wb") as f:
         pickle.dump(cv_sections, f)
 
     # create FAISS index
     embedding_dim = cv_embeddings_np.shape[1]  # get size
     index = faiss.IndexFlatL2(embedding_dim)  # L2 distance fro similarity
     index.add(cv_embeddings_np)  # Add embeddings to FAISS
-    faiss.write_index(index, "cv_embeddings.index")
+    faiss.write_index(index, "data/cv_embeddings.index")
     print("CV Loaded to Memory")
