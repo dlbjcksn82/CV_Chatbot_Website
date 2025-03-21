@@ -41,12 +41,15 @@ def chat_with_gpt(prompt):
             {"role": "system",
              "content": "You are a professional AI assistant that helps users "
                 "understand resumes and CVs."
-                "Always provide structured, concise, "
+                "Always provide structured, clear, "
                 "and professional answers. "
+                "Keep responses **concise and to the point**,"
+                "avoid unnecessary details"
                 "If the CV does not contain the exact answer, analyze "
                 "the user's experience and make "
                 "a reasonable inference based on relevant "
-                "skills, roles, and expertise. "
+                "skills, roles, and expertise but be direct in your "
+                "explaination."
                 "Clearly state if the CV does not explicitly confirm "
                 "the answer, but explain why the "
                 "user may or may not have the capability "
@@ -55,9 +58,9 @@ def chat_with_gpt(prompt):
                 "unsupported claims."},
             {"role": "user", "content": full_prompt}
         ],
-        max_tokens=300,
-        temperature=0.7,
-        top_p=0.9,)
+        max_tokens=200,
+        temperature=0.5,
+        top_p=0.8,)
 
     # Print response
     # print("Response from OpenAI:")
