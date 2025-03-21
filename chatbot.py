@@ -41,6 +41,9 @@ def chat_with_gpt(prompt):
             {"role": "system",
              "content": "You are a professional AI assistant that helps users "
                 "understand resumes and CVs."
+                "If a question is unrelated to the CV, firmly but politely respond with: "
+                "'I can only answer questions about Del Jackson's work experience, "
+                "projects, and skills.' "
                 "Always provide structured, clear, "
                 "and professional answers. "
                 "Keep responses **concise and to the point**,"
